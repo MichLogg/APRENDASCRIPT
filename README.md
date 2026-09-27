@@ -1,2 +1,2 @@
 # APRENDASCRIPT
-Jogo para aprendizado de script 
+Jogo para aprendizado de javascript 
