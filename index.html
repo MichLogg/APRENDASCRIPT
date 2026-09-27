@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Jogo educativo de JavaScript: corra do desemprego respondendo desafios de código em quatro níveis de dificuldade.">
+<meta name="theme-color" content="#0b1533">
+<title>AprendaScript</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%208'%3E%3Crect%20width='8'%20height='8'%20fill='%230b1533'/%3E%3Crect%20x='1'%20y='1'%20width='3'%20height='3'%20fill='%233ddc6b'/%3E%3Crect%20x='4'%20y='4'%20width='3'%20height='3'%20fill='%23ffd23f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body data-screen="menu">
+<div class="crt" aria-hidden="true"></div>
+
+<header class="topbar">
+  <p class="brand">APRENDA<b>SCRIPT</b></p>
+  <nav class="topbar-nav" aria-label="Navegação rápida">
+    <button class="chip" type="button" data-nav="menu">MENU</button>
+    <button class="chip" type="button" data-toggle="sound" aria-pressed="true">SOM ON</button>
+  </nav>
+</header>
+
+<main class="viewport">
+
+  <section class="screen is-active" data-screen="menu" aria-labelledby="menu-title" tabindex="-1">
+    <div class="menu-grid">
+      <div class="panel menu-stage">
+        <canvas id="menu-canvas" width="480" height="180" role="img" aria-label="Cena pixelada de um programador correndo do desemprego"></canvas>
+        <p class="menu-hint">4 níveis &middot; 3 modos &middot; <b data-bank-total>0</b> desafios</p>
+      </div>
+      <div class="panel menu-panel">
+        <h1 class="title" id="menu-title">APRENDA<em>SCRIPT</em></h1>
+        <p class="subtitle">Aprenda rápido. O desemprego corre atrás.</p>
+        <nav class="menu-nav" aria-label="Menu principal">
+          <button class="btn btn-primary" type="button" data-nav="levels">JOGAR</button>
+          <button class="btn" type="button" data-nav="howto">COMO JOGAR</button>
+          <button class="btn" type="button" data-nav="levels">NÍVEIS</button>
+          <button class="btn" type="button" data-nav="options">OPÇÕES</button>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="levels" aria-labelledby="levels-title" tabindex="-1">
+    <div class="screen-head">
+      <button class="btn btn-ghost" type="button" data-nav="menu">VOLTAR</button>
+      <h2 class="screen-title" id="levels-title">ESCOLHA O NÍVEL</h2>
+    </div>
+    <ul class="card-grid" id="level-list"></ul>
+  </section>
+
+  <section class="screen" data-screen="modes" aria-labelledby="modes-title" tabindex="-1">
+    <div class="screen-head">
+      <button class="btn btn-ghost" type="button" data-nav="levels">VOLTAR</button>
+      <h2 class="screen-title" id="modes-title">ESCOLHA O MODO</h2>
+      <p class="screen-badge" id="mode-level-badge">NÍVEL INICIANTE</p>
+    </div>
+    <ul class="card-grid" id="mode-list"></ul>
+  </section>
+
+  <section class="screen" data-screen="howto" aria-labelledby="howto-title" tabindex="-1">
+    <div class="screen-head">
+      <button class="btn btn-ghost" type="button" data-nav="menu">VOLTAR</button>
+      <h2 class="screen-title" id="howto-title">COMO JOGAR</h2>
+    </div>
+    <div class="panel prose">
+      <h3>A CORRIDA</h3>
+      <p>Seu personagem corre sozinho e o desemprego vem atrás, na forma de um monstro. Cada desafio respondido corretamente empurra você para frente e abre distância. Errar ou deixar o tempo acabar aproxima a criatura.</p>
+      <h3>VELOCIDADE</h3>
+      <p>Quanto mais rápido a resposta certa chegar, maior o avanço e o bônus de pontos. Depois de alguns segundos lendo a pergunta o desemprego começa a ganhar terreno, então hesitar custa caro.</p>
+      <h3>CONTROLES</h3>
+      <ul class="keys">
+        <li><b>1 2 3 4</b> ou <b>A B C D</b> seleciona a alternativa</li>
+        <li><b>ENTER</b> confirma a resposta e avança o feedback</li>
+        <li><b>ESC</b> pausa a partida</li>
+        <li><b>MARCA BRANCA</b> na barra de tempo mostra quando o desemprego responde no modo duelo</li>
+        <li>No celular toque na alternativa; tocar de novo confirma</li>
+      </ul>
+      <h3>MODOS</h3>
+      <ul class="keys">
+        <li><b>CORRIDA</b> chegue ao fim da pista antes de ser alcançado</li>
+        <li><b>DUELO</b> duas torres de blocos: responder antes do desemprego entulha a torre dele, responder depois entulha a sua, e quem transbordar primeiro perde</li>
+        <li><b>CABO DE GUERRA</b> só desafios de completar código: cada trecho fechado puxa a corda para o seu lado, e acertos seguidos puxam cada vez mais forte</li>
+        <li><b>CONTRARRELÓGIO</b> sem perseguição, mas o relógio não perdoa</li>
+        <li><b>SOBREVIVÊNCIA</b> três vidas e um desemprego que acelera</li>
+      </ul>
+      <h3>APRENDIZADO</h3>
+      <p>Toda resposta traz uma explicação curta e, no fim da partida, a tela de resultado lista os desafios que você errou para revisar com calma.</p>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="options" aria-labelledby="options-title" tabindex="-1">
+    <div class="screen-head">
+      <button class="btn btn-ghost" type="button" data-nav="menu">VOLTAR</button>
+      <h2 class="screen-title" id="options-title">OPÇÕES</h2>
+    </div>
+    <form class="panel options-form" id="options-form">
+      <fieldset>
+        <legend>PARTIDA</legend>
+        <label class="switch"><input type="checkbox" name="sound" checked><span>Efeitos sonoros</span></label>
+        <label class="switch"><input type="checkbox" name="effects" checked><span>Partículas, tremor e scanlines</span></label>
+        <label class="switch"><input type="checkbox" name="extraTime"><span>Tempo extra por desafio (+35%)</span></label>
+        <label class="switch"><input type="checkbox" name="explanations" checked><span>Mostrar explicação após responder</span></label>
+      </fieldset>
+      <div class="options-actions">
+        <button class="btn" type="button" data-action="reset-records">APAGAR RECORDES</button>
+        <button class="btn btn-primary" type="button" data-nav="menu">VOLTAR AO MENU</button>
+      </div>
+      <p class="options-note" id="options-note" role="status" aria-live="polite">As preferências ficam salvas neste navegador.</p>
+    </form>
+  </section>
+
+  <section class="screen screen-game" data-screen="game" aria-label="Partida em andamento" tabindex="-1">
+    <div class="arena">
+      <div class="panel stage">
+        <canvas id="track" width="480" height="180" role="img" aria-label="Pista da corrida com o personagem e o desemprego"></canvas>
+        <p class="countdown" id="countdown" aria-hidden="true"></p>
+        <p class="stage-toast" id="stage-toast" aria-hidden="true"></p>
+      </div>
+      <div class="hud">
+        <div class="bar-block" id="progress-block">
+          <span class="bar-name" id="name-progress">PISTA</span>
+          <div class="bar" id="bar-progress" role="progressbar" aria-label="Progresso da pista" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+          <b class="bar-value" id="value-progress">0%</b>
+        </div>
+        <div class="bar-block" id="threat-block">
+          <span class="bar-name" id="name-threat">DESEMPREGO</span>
+          <div class="bar bar-threat" id="bar-threat" role="progressbar" aria-label="Distância até o desemprego" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i></i></div>
+          <b class="bar-value" id="value-threat">LONGE</b>
+        </div>
+        <ul class="stats">
+          <li><span>PONTOS</span><b id="stat-score">0</b></li>
+          <li><span>ACERTOS</span><b id="stat-hits">0</b></li>
+          <li><span>ERROS</span><b id="stat-misses">0</b></li>
+          <li><span>COMBO</span><b id="stat-combo">x0</b></li>
+          <li><span id="label-speed">VELOCIDADE</span><b id="stat-speed">0.6x</b></li>
+          <li><span>TEMPO</span><b id="stat-clock">00:00</b></li>
+          <li id="stat-lives-item" hidden><span>VIDAS</span><b id="stat-lives">3</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="panel quiz" aria-label="Desafio atual">
+      <header class="quiz-head">
+        <span class="tag" id="question-category">VARIÁVEIS</span>
+        <span class="pips" id="question-pips" aria-hidden="true"></span>
+        <span class="quiz-count" id="question-count">DESAFIO 1</span>
+        <div class="timer" id="timer" role="progressbar" aria-label="Tempo restante do desafio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="timer-fill"></i><b class="timer-mark" id="timer-mark" hidden></b></div>
+      </header>
+      <div class="quiz-body" aria-live="polite">
+        <p class="question" id="question-text">Carregando desafio...</p>
+        <pre class="code" id="question-code" hidden><code></code></pre>
+      </div>
+      <form class="answers" id="answer-form" novalidate>
+        <div class="options" id="options" role="group" aria-label="Alternativas"></div>
+        <div class="typed" id="typed" hidden>
+          <label for="typed-input" id="typed-label">DIGITE A RESPOSTA</label>
+          <input id="typed-input" name="typed" type="text" autocomplete="off" autocapitalize="none" spellcheck="false">
+        </div>
+        <div class="answers-actions">
+          <button class="btn btn-primary" type="submit" id="confirm-btn">RESPONDER</button>
+          <button class="btn btn-ghost" type="button" data-action="pause">PAUSAR</button>
+        </div>
+      </form>
+      <div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <div class="overlay" id="pause-overlay" hidden>
+      <div class="panel overlay-card" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+        <h2 id="pause-title">PAUSADO</h2>
+        <p>O desemprego também parou para respirar.</p>
+        <button class="btn btn-primary" type="button" data-action="resume">CONTINUAR</button>
+        <button class="btn" type="button" data-action="quit">SAIR DA PARTIDA</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="result" aria-labelledby="result-title" tabindex="-1">
+    <div class="result-grid">
+      <div class="panel result-main">
+        <p class="result-flag" id="result-flag">VITÓRIA</p>
+        <h2 class="screen-title" id="result-title">Você chegou ao fim da pista</h2>
+        <div class="rank">
+          <b id="result-rank">A</b>
+          <p id="result-rank-note">Desempenho sólido</p>
+        </div>
+        <ul class="result-stats" id="result-stats"></ul>
+        <div class="result-actions">
+          <button class="btn btn-primary" type="button" data-action="replay">JOGAR NOVAMENTE</button>
+          <button class="btn" type="button" data-nav="modes">TROCAR MODO</button>
+          <button class="btn btn-ghost" type="button" data-nav="menu">MENU</button>
+        </div>
+      </div>
+      <div class="panel result-review">
+        <h3>REVISÃO</h3>
+        <ul id="review-list"></ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>AprendaScript &middot; HTML5, CSS3 e JavaScript puro</p>
+</footer>
+
+<script src="js/questions.js" defer></script>
+<script src="js/quiz.js" defer></script>
+<script src="js/state.js" defer></script>
+<script src="js/audio.js" defer></script>
+<script src="js/blocks.js" defer></script>
+<script src="js/characters.js" defer></script>
+<script src="js/ui.js" defer></script>
+<script src="js/game.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
